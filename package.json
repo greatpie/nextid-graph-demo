@@ -13,7 +13,8 @@
   "dependencies": {
     "@antv/g6": "^4.8.7",
     "graphql": "^16.6.0",
-    "graphql-request": "^5.1.0"
+    "graphql-request": "^5.1.0",
+    "insert-css": "^2.0.0"
   },
   "devDependencies": {
     "snowpack": "^3.8.8"
