@@ -10,6 +10,7 @@
   },
   "author": "Jiapai Liu",
   "license": "MIT",
+  "browserslist": ">50%, not ie 11, not UCAndroid >0, not OperaMini all",
   "dependencies": {
     "@antv/g6": "^4.8.7",
     "graphql": "^16.6.0",
