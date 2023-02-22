@@ -1,0 +1,21 @@
+{
+  "name": "nextid-graph-demo",
+  "version": "1.0.0",
+  "description": "Demo graph of nextId",
+  "main": "index.js",
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jiapai Liu",
+  "license": "MIT",
+  "dependencies": {
+    "@antv/g6": "^4.8.7",
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.1.0"
+  },
+  "devDependencies": {
+    "snowpack": "^3.8.8"
+  }
+}
