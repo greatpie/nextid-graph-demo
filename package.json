@@ -2,22 +2,22 @@
   "name": "nextid-graph-demo",
   "version": "1.0.0",
   "description": "Demo graph of nextId",
-  "main": "index.js",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "start": "snowpack dev",
-    "build": "snowpack build",
+    "start": "parcel",
+    "build": "parcel build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jiapai Liu",
   "license": "MIT",
-  "browserslist": ">50%, not ie 11, not UCAndroid >0, not OperaMini all",
   "dependencies": {
     "@antv/g6": "^4.8.7",
     "graphql": "^16.6.0",
-    "graphql-request": "^5.1.0",
-    "insert-css": "^2.0.0"
+    "graphql-request": "^5.1.0"
   },
   "devDependencies": {
-    "snowpack": "^3.8.8"
+    "parcel": "^2.8.3",
+    "process": "^0.11.10"
   }
 }
