@@ -37,7 +37,7 @@ const graph = new G6.Graph({
     preventOverlap: true,
     linkDistance: (d) => {
       if (d.isIdentity) {
-        return 60
+        return 120
       }
       return 30
     },
