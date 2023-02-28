@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "start": "parcel",
-    "build": "parcel build",
+    "build": "parcel build && cp -r ./src/icons/ ./dist/icons",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jiapai Liu",
