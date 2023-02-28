@@ -1,4 +1,5 @@
 import { request, gql } from 'graphql-request'
+import G6 from '@antv/g6'
 
 const query = gql`
   query findOneIdentity {
@@ -32,54 +33,55 @@ const query = gql`
   }
 `
 
-const response = await request('https://relation-service.next.id/', query)
-const edges = response.identity.neighborWithTraversal.map(item => {
-  return {
-    source: item.from.platform,
-    target: item.to.platform,
+request('https://relation-service.next.id/', query).then(response=>{
+  {
+    const edges = response.identity.neighborWithTraversal.map(item => {
+      return {
+        source: item.from.platform,
+        target: item.to.platform,
+      }
+    })
+    const data = {
+      nodes: [
+        {
+          id: 'ethereum',
+          label: 'Ethereum',
+        }, {
+          id: 'twitter',
+          label: 'Twitter',
+        }, {
+          id: 'lens',
+          label: 'Lens',
+        }, {
+          id: 'github',
+          label: 'Github',
+        }, {
+          id: 'reddit',
+          label: 'Reddit',
+        }, {
+          id: "keybase",
+          label: "Keybase"
+        },
+        {
+          id: "nextid",
+          label: "Next.ID"
+        }
+      ],
+      edges
+    }
+
+    console.log(data)
+
+
+    
+    const graph = new G6.Graph({
+      container: 'container',
+      width: 500,
+      height: 500,
+    })
+
+
+    graph.data(data)
+    graph.render()
   }
 })
-const data = {
-  nodes: [
-    {
-      id: 'ethereum',
-      label: 'Ethereum',
-    }, {
-      id: 'twitter',
-      label: 'Twitter',
-    }, {
-      id: 'lens',
-      label: 'Lens',
-    }, {
-      id: 'github',
-      label: 'Github',
-    }, {
-      id: 'reddit',
-      label: 'Reddit',
-    }, {
-      id: "keybase",
-      label: "Keybase"
-    },
-    {
-      id:"nextid",
-      label:"Next.ID"
-    }
-  ],
-  edges
-}
-
-console.log(data)
-
-// G6 Graph
-import G6 from '@antv/g6'
-
-const graph = new G6.Graph({
-  container: 'container',
-  width: 500,
-  height: 500,
-})
-
-
-graph.data(data)
-graph.render()
-

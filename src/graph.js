@@ -1,11 +1,7 @@
 import G6 from '@antv/g6';
 import insertCss from 'insert-css';
 import { request, gql } from 'graphql-request'
-
-// 实际开发中把 window.AntVUtil 换成从 @antv/util 引入的相关模块
-// replace window.AntVUtil.isObject with
 import { isNumber, isArray } from '@antv/util';
-// const { isNumber, isArray } = window.AntVUtil;
 
 insertCss(`
   .g6-component-contextmenu {
@@ -1440,7 +1436,7 @@ const query = gql`
   query findOneIdentity {
     identity(
       platform: "ethereum"
-      identity: "0x0bd793ea8334a77b2bfd604dbaedca11ea094306"
+      identity: "0xa75e8c75f193ee0079f6c75ca7fcbe79c40c517f"
     ) {
       status
       uuid
@@ -1475,7 +1471,7 @@ request('https://relation-service.next.id/', query)
             return {
                 source: item.from.platform,
                 target: item.to.platform,
-                value: 1
+                value: Math.round(Math.random() * 0)+1,
             }
         })
         const data = {

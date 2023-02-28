@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Demo graph of nextId",
   "source": "src/index.html",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "browserslist": [
+    "last 1 Chrome version"
+  ],
   "scripts": {
     "start": "parcel",
     "build": "parcel build",
@@ -14,7 +16,8 @@
   "dependencies": {
     "@antv/g6": "^4.8.7",
     "graphql": "^16.6.0",
-    "graphql-request": "^5.1.0"
+    "graphql-request": "^5.1.0",
+    "loadash": "^1.0.0"
   },
   "devDependencies": {
     "parcel": "^2.8.3",
