@@ -1,5 +1,6 @@
-import { platformsMap } from "./map"
-import _ from "lodash"
+import _ from 'lodash'
+
+import { platformsMap,colorsMap} from './maps'
 
 const resolveGraphData = (source) => {
   const nodes = []
@@ -70,7 +71,7 @@ const resolveGraphData = (source) => {
       }
     })
   })
-  
+
   const _nodes = _.uniqBy(nodes, 'id')
   const _edges = _.uniqBy(edges, 'id')
   return { nodes: _nodes, edges: _edges }
@@ -95,4 +96,79 @@ const formatText = (string, length) => {
   return string
 }
 
-export { resolveGraphData }
+const processNodesEdges = (nodes, edges) => {
+  // todo: processs edges and nodes
+  nodes.forEach((node) => {
+    if (node.isIdentity) {
+      // Identity
+      node.size = 96
+      node.style = {
+        lineWidth: 2,
+      }
+      node.stateStyles = {
+        selected: {
+          stroke: colorsMap[node.platform],
+          fill: colorsMap[node.platform],
+          fillOpacity: 0.1,
+          lineWidth: 2,
+          shadowColor: 'transparent',
+          zIndex: 999,
+        },
+      }
+    } else {
+      // ENS
+      node.size = 24
+      node.labelCfg = {
+        labelLineNum: 1,
+        position: 'bottom',
+      }
+      node.style = {
+        lineWidth: 2,
+        fill: colorsMap[node.platform],
+        stroke: 'rgba(0, 0, 0, .05)',
+      }
+      node.stateStyles = {
+        selected: {
+          lineWidth: 2,
+          shadowColor: 'transparent',
+          zIndex: 999,
+        },
+      }
+    }
+    node.type = 'identity-node'
+    node.label = formatText(node.label)
+    if (node.platform && node.platform.toLowerCase() === 'ethereum') {
+      node.label = `${node.displayName || formatText(node.identity)} ${
+        node.displayName ? `\n${formatText(node.identity)}` : ''
+      }`
+      node.labelLineNum = node.displayName ? 2 : 1
+    }
+  })
+  edges.forEach((edge) => {
+    if (edge.isIdentity) {
+      // Identity
+      edge.type = 'quadratic'
+      edge.curveOffset = 0
+      edge.stateStyles = {
+        selected: {
+          stroke: '#cecece',
+          shadowColor: 'transparent',
+          zIndex: 999,
+        },
+      }
+    } else {
+      // ENS
+      edge.type = 'line'
+      edge.stateStyles = {
+        selected: {
+          stroke: '#cecece',
+          shadowColor: 'transparent',
+          zIndex: 999,
+        },
+      }
+    }
+  })
+  // G6.Util.processParallelEdges(edges);
+}
+
+export { resolveGraphData, processNodesEdges }

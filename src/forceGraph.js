@@ -1,29 +1,49 @@
 import G6 from '@antv/g6'
-import { resolveGraphData } from './utils'
+import { processNodesEdges, resolveGraphData } from './utils/processer'
 import { request } from 'graphql-request'
-import { END_POINT, GET_PROFILES_QUERY, GET_PROFILES_DOMAIN } from './queries'
+import { END_POINT, GET_PROFILES_QUERY } from './utils/queries'
+import { register } from './graphRegister'
 
-const indentity = '0x0bd793ea8334a77b2bfd604dbaedca11ea094306'
+
+register()
+const indentity = '0xa75e8c75f193ee0079f6c75ca7fcbe79c40c517f'
 
 const container = document.getElementById('container')
 const width = container.scrollWidth
 const height = container.scrollHeight || 500
 const graph = new G6.Graph({
   container: 'container',
-  width,
-  height,
+
+  defaultEdge: {
+    labelCfg: {
+      autoRotate: true,
+      style: {
+        stroke: '#fff',
+        linWidth: 4,
+        fill: '#263238',
+        fontSize: '10px',
+      },
+    },
+    style: {
+      endArrow: {
+        path: 'M 0,0 L 5,2.5 L 5,-2.5 Z',
+        fill: '#cecece',
+        stroke: '#cecece',
+      },
+    },
+  },
   layout: {
     type: 'force',
     preventOverlap: true,
     linkDistance: (d) => {
-      if (d.source.id === 'ethereum') {
-        return 150
+      if (d.isIdentity) {
+        return 60
       }
-      return 100
+      return 30
     },
     nodeStrength: (d) => {
       if (d.isLeaf) {
-        return -50
+        return -30
       }
       return 0
     },
@@ -50,6 +70,7 @@ processData(indentity).then((data) => {
   graph.data(data)
   graph.render()
 })
+
 
 graph.on('node:dragstart', function (e) {
   graph.layout()
@@ -82,59 +103,8 @@ async function processData(indentity) {
     identity: indentity,
   })
 
-  const rawData = response.identity.neighborWithTraversal
-
-  return resolveGraphData(rawData)
-  // const edges = response.identity.neighborWithTraversal.map((item) => {
-  //   return {
-  //     source: item.from.platform,
-  //     target: item.to.platform,
-  //     type: 'quadratic',
-  //     label: item.source,
-  //     style:{
-  //       endArrow: true,
-  //     }
-  //   }
-  // })
-  // const data = {
-  //   nodes: [
-  //     {
-  //       id: 'ethereum',
-  //       size: 60,
-  //       label: 'Ethereum',
-  //     },
-  //     {
-  //       id: 'twitter',
-  //       size: 40,
-  //       label: 'Twitter',
-  //     },
-  //     {
-  //       id: 'lens',
-  //       size: 40,
-  //       label: 'Lens',
-  //     },
-  //     {
-  //       id: 'github',
-  //       size: 40,
-  //       label: 'Github',
-  //     },
-  //     {
-  //       id: 'reddit',
-  //       size: 40,
-  //       label: 'Reddit',
-  //     },
-  //     {
-  //       id: 'keybase',
-  //       size: 40,
-  //       label: 'Keybase',
-  //     },
-  //     {
-  //       id: 'nextid',
-  //       size: 40,
-  //       label: 'NextID',
-  //     },
-  //   ],
-  //   edges,
-  // }
-  // return data
+  const graphData=  resolveGraphData(response.identity.neighborWithTraversal)
+  processNodesEdges(graphData.nodes,graphData.edges)
+  return graphData
+  
 }
